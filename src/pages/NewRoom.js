@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 import '../styles/auth.css'
 import {Link} from 'react-router-dom'
-import {AuthContext} from '../App'
+import {AuthContext} from '../contexts/AuthContext'
 
 
 import Button from '../compontents/Button/Button'

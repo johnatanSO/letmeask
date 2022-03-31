@@ -6,60 +6,21 @@ import {getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-export const AuthContext = createContext({})
+import AuthContextProvider from './contexts/AuthContext'
 
 
 
 function App() {
-  const [user,setUser] = useState()
-  const auth = getAuth()
 
-
-  useEffect(() =>{
-    auth.onAuthStateChanged((user)=>{
-      if(user){
-        const {displayName, photoURL, uid} = user
-
-        if(!displayName || !photoURL){
-          throw new Error('Missing Information from Google Account!')
-        }
-
-        setUser({
-          id: uid,
-          name: displayName,
-          avatar: photoURL
-        })
-      }
-    })
-  },[])
-
-  async function signInWithGoogle(){
-    const provider = new GoogleAuthProvider()
-    const result = await signInWithPopup(auth,provider)
-
-    if(result.user){
-      const {displayName, photoURL, uid} = result.user
-
-      if(!displayName || !photoURL){
-        throw new Error('Missing Information from Google Account!')
-      }
-
-      setUser({
-        id: uid,
-        name: displayName,
-        avatar: photoURL
-      })
-    }
-  }
   
   return (
     <BrowserRouter>
-        <AuthContext.Provider value={{user, signInWithGoogle}}>
+      <AuthContextProvider>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/rooms/new" element={<NewRoom />} />
           </Routes>
-        </AuthContext.Provider>
+      </AuthContextProvider>
     </BrowserRouter>
   )
 }

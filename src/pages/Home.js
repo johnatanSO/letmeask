@@ -2,7 +2,7 @@ import React , {useContext} from 'react'
 import '../styles/auth.css'
 import {useNavigate} from 'react-router-dom'
 import Button from '../compontents/Button/Button'
-import {AuthContext} from '../App'
+import {AuthContext} from '../contexts/AuthContext'
 
 function Home() {
   const navigate = useNavigate()
