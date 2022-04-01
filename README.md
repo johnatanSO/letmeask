@@ -1,3 +1,3 @@
-## [Mission: ReactJS] Aula 02 – Maximum Speed
+## [Mission: ReactJS] Aula 03 – In Orbit
 
-1:20:00 - TEMPO DO VÍDEO
+00:29:00 - TEMPO DO VÍDEO

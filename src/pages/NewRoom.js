@@ -1,14 +1,34 @@
-import React, {useContext} from 'react'
 import '../styles/auth.css'
-import {Link} from 'react-router-dom'
-import {AuthContext} from '../contexts/AuthContext'
-
-
+import {Link, useNavigate} from 'react-router-dom'
+import useAuth from '../hooks/useAuth'
 import Button from '../compontents/Button/Button'
+import {useState} from 'react'
+import {getDatabase, ref, push, set} from 'firebase/database'
 
 function NewRoom() {
+  const {user} = useAuth()
+  const database = getDatabase()
+  const navigate = useNavigate()
 
-  const {user, signInWithGoogle} = useContext(AuthContext)
+  const [newRoom, setNewRoom] = useState('')
+
+  async function handleCreateRoom(e){
+    e.preventDefault()
+
+    if(newRoom.trim() === ''){
+      return
+    }
+    const roomRef = ref(database, 'rooms')
+    const firebaseRoom = await push(roomRef)
+    set(firebaseRoom, {
+      title: newRoom,
+      authorId: user.id,
+    })
+
+
+    navigate(`/rooms/${firebaseRoom.key}`)
+  }
+
 
   return (
     <div id="page-auth">
@@ -20,13 +40,10 @@ function NewRoom() {
       <main>
         <div className="main-content">
           <img src={"../assets/images/logo.svg"} alt="Logo letmeask" />
-          {user &&
-            <h1>{user.name}</h1>
-          }
           <h2>Criar uma nova sala</h2>
          
-          <form>
-            <input placeholder='Nome da sala...' type="text" />
+          <form onSubmit={handleCreateRoom}>
+            <input value={newRoom} onChange={(event)=>{setNewRoom(event.target.value)}} placeholder='Nome da sala...' type="text" />
             <Button>Criar sala</Button>
           </form>
           <p>Quer entrar em uma sala existente? <Link to="/">Clique aqui</Link></p>

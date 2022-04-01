@@ -1,12 +1,16 @@
-import React , {useContext} from 'react'
 import '../styles/auth.css'
 import {useNavigate} from 'react-router-dom'
 import Button from '../compontents/Button/Button'
-import {AuthContext} from '../contexts/AuthContext'
+import useAuth from '../hooks/useAuth'
 
 function Home() {
   const navigate = useNavigate()
-  const {user, signInWithGoogle} = useContext(AuthContext)
+  const {user, signInWithGoogle} = useAuth()
+
+
+  async function handleJoinRoom() {
+
+  }
 
   async function handleCreateRoom(){
     if(!user){
@@ -14,8 +18,6 @@ function Home() {
     }
     navigate('/rooms/new')
   }
-
-  
 
   return (
 
